@@ -68,6 +68,31 @@ def build_model():
     cv = GridSearchCV(pipeline,param_grid=parameters, n_jobs=-1)
     return cv
 
+def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    printing results 
+    input:
+    model: model that is being evaluated
+    X_test: tokens of test-dataset
+    Y_test: results of test-dataset
+    category_names: categories/columns that results will be provided for
+
+    """
+    y_pred=model.predict(X_test)
+    y_pred_df=pd.DataFrame(data=y_pred,columns=Y_test.columns)
+    for col in Y_test.columns:
+        print(col,classification_report(y_true=Y_test[col],y_pred=y_pred_df[col]))
+
+
+def save_model(model, model_filepath):
+    """
+    input:
+    model: model to be saved
+    model_filepath: path to save to
+    """
+    filename = model_filepath
+    pickle.dump(model, open(filename, 'wb'))
+
 
 
 def main():
@@ -79,3 +104,24 @@ def main():
         
         print('Building model...')
         model = build_model()
+        
+        print('Training model...')
+        model.fit(X_train, Y_train)
+        
+        print('Evaluating model...')
+        evaluate_model(model, X_test, Y_test, category_names)
+
+        print('Saving model...\n    MODEL: {}'.format(model_filepath))
+        save_model(model, model_filepath)
+
+        print('Trained model saved!')
+
+    else:
+        print('Please provide the filepath of the disaster messages database '\
+              'as the first argument and the filepath of the pickle file to '\
+              'save the model to as the second argument. \n\nExample: python '\
+              'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
+
+
+if __name__ == '__main__':
+    main()
