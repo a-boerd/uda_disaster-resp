@@ -4,8 +4,9 @@ from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
     """
-    messages_filepath is the file the messages are stored in
-    categories_filepath is the file the categories are stored in
+    input:
+    messages_filepath: filepath the messages are stored in
+    categories_filepath: filepath the categories are stored in
 
     """
     # load messages dataset
@@ -18,6 +19,13 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    cleaning provided data
+    input:
+    df: a pandas dataframe that will be cleaned
+    output:
+    cleaned pandas dataframe
+    """
     #split categories into separate columns
     categories = df.categories.str.split(pat=";",expand=True)
     #get list of new column names
@@ -37,8 +45,14 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
+    """
+    saving provided dataframe
+    input:
+    df: dataframe that will be saved
+    database_filename: name of the database the df will be saved to
+    """
     engine = create_engine('sqlite:///{}'.format(database_filename))
-    df.to_sql('disaster_message_cat', engine, index=False)
+    df.to_sql('disaster_message_cat', engine, index=False,if_exists="replace")
     print("saved successfully")
   
 
