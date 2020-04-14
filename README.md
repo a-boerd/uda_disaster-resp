@@ -18,7 +18,7 @@
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
-3. Go to http://view6914b2f4-3001.udacity-student-workspaces.com/
+3. Go to http://SPACEID-3001.SPACEDOMAIN (where both SPACEID and SPACEDOMAIN need to be replaced with whatever the command env|grep WORK returns)
 
 ## Project Motivation<a name="motivation"></a>
 
